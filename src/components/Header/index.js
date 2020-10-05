@@ -12,7 +12,7 @@ function Header() {
             src="https://api.adorable.io/avatars/50/abott@adorable.png"
             alt="Dimi e Rodi"
           />
-          <Link to="/dashboard">Home</Link>
+          <Link to="/dashboard">Dashboard</Link>
         </nav>
 
         <aside>

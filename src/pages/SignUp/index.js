@@ -1,12 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 import couple from '~/assets/couple1.png';
 
+import { signUpRequest } from '~/store/modules/auth/actions';
+
 // import { Container } from './styles';
 const schema = Yup.object().shape({
-  fullname: Yup.string().required('Quem é você? '),
+  name: Yup.string().required('Quem é você? '),
   email: Yup.string()
     .email('Que email doido é esse?!')
     .required('Coloca um email ai, juro q n envio spam!'),
@@ -19,15 +22,16 @@ const schema = Yup.object().shape({
   ),
 });
 function SignIn() {
-  function handleSubmit(data) {
-    console.tron.log(data);
+  const dispatch = useDispatch();
+  function handleSubmit({ name, email, password }) {
+    dispatch(signUpRequest(name, email, password));
   }
 
   return (
     <>
       <img src={couple} alt="Couple" />
       <Form schema={schema} onSubmit={handleSubmit}>
-        <Input name="fullname" placeholder="Nome completo" />
+        <Input name="name" placeholder="Nome completo" />
         <Input name="email" type="email" placeholder="Seu email" />
         <Input
           name="password"
