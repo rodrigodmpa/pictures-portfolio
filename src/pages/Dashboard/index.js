@@ -1,95 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { Container, Item, Title } from './styles';
-import eueela from '~/assets/eueela.jpeg';
+import { Container, Item } from './styles';
+import default_image from '~/assets/img/default_image.jpg';
+import api from '~/services/api';
 
 function Dashboard() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    async function getPosts() {
+      const response = await api.get('posts');
+      setPosts(response.data.posts);
+      console.log(response.data.posts);
+    }
+    getPosts();
+  }, []);
+
+  function showDefaultImage(e) {
+    e.target.attributes.src.value = default_image;
+  }
   return (
     <>
-      {/* <Title>Fotos</Title> */}
       <Container>
-        <Item>
-          <img alt="img" src={eueela} />
-          <div>
-            Legenda da imagem vem aqui, teste escrevendo um texto grande.
-            <div>Sublegenda da imagem aqui</div>
-          </div>
-        </Item>
-        <Item>
-          <img alt="img" src={eueela} />
-          <div>
-            Legenda da imagem vem aqui, teste escrevendo um texto grande.
-            <div>Sublegenda da imagem aqui</div>
-          </div>
-        </Item>
-        <Item>
-          <img
-            alt="img"
-            src="https://api.adorable.io/avatars/200/abott@adorable.png"
-          />
-          <div>
-            Legenda da imagem vem aqui, teste escrevendo um texto grande.
-            <div>Sublegenda da imagem aqui</div>
-          </div>
-        </Item>
-        <Item>
-          <img
-            alt="img"
-            src="https://api.adorable.io/avatars/400/abott@adorable.png"
-          />
-          <div>
-            Legenda da imagem vem aqui, teste escrevendo um texto grande.
-            <div>Sublegenda da imagem aqui</div>
-          </div>
-        </Item>
-        <Item>
-          <img
-            alt="img"
-            src="https://api.adorable.io/avatars/100/abott@adorable.png"
-          />
-        </Item>
-        <Item>
-          <img
-            alt="img"
-            src="https://api.adorable.io/avatars/30/abott@adorable.png"
-          />
-        </Item>
-        <Item>
-          <img
-            alt="img"
-            src="https://api.adorable.io/avatars/300/abott@adorable.png"
-          />
-        </Item>
-        <Item>
-          <img
-            alt="img"
-            src="https://api.adorable.io/avatars/150/abott@adorable.png"
-          />
-        </Item>
-        <Item>
-          <img
-            alt="img"
-            src="https://api.adorable.io/avatars/300/abott@adorable.png"
-          />
-        </Item>
-        <Item>
-          <img
-            alt="img"
-            src="https://api.adorable.io/avatars/70/abott@adorable.png"
-          />
-        </Item>
-        <Item>
-          <img
-            alt="img"
-            src="https://api.adorable.io/avatars/170/abott@adorable.png"
-          />
-        </Item>
-        <Item>
-          <img
-            alt="img"
-            src="https://api.adorable.io/avatars/120/abott@adorable.png"
-          />
-        </Item>
+        {posts.length &&
+          posts.map((post) => (
+            <Item>
+              <img alt={post.name} onError={showDefaultImage} src={post.url} />
+              <div>
+                {post.title}
+                <div>{post.subtitle}</div>
+              </div>
+            </Item>
+          ))}
       </Container>
     </>
   );

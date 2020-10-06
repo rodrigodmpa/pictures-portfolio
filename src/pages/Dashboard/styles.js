@@ -26,8 +26,8 @@ export const Container = styled.div`
 `;
 
 export const Item = styled.div`
-  margin: 5px;
-  padding: 15px;
+  /* margin: 5px;
+  padding: 15px; */
   text-align: center;
   font-size: 1.5em;
   border: 1px solid black;
