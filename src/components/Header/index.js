@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Container, Content, Profile } from './styles';
 
 function Header() {
+  const profile = useSelector((state) => state.user.profile);
+  const [headerColor, setHeaderColor] = useState('white');
+  const [fontColor, setFontColor] = useState('black');
+
+  useEffect(() => {
+    function listenScrollEvent() {
+      if (window.scrollY > 100) {
+        setHeaderColor('black');
+        setFontColor('white');
+      } else {
+        setHeaderColor('white');
+        setFontColor('black');
+      }
+    }
+    window.addEventListener('scroll', listenScrollEvent);
+  }, []);
+
   return (
-    <Container>
+    <Container color={headerColor}>
       <Content>
         <nav>
           <img
@@ -16,13 +34,16 @@ function Header() {
         </nav>
 
         <aside>
-          <Profile>
+          <Profile fontColor={fontColor}>
             <div>
-              <strong>Rodrigo e Dimitria</strong>
+              <strong>{profile.name}</strong>
               <Link to="/profile">Meu perfil</Link>
             </div>
             <img
-              src="https://api.adorable.io/avatars/50/abott@adorable.png"
+              src={
+                profile.avatar.url ||
+                'https://api.adorable.io/avatars/50/abott@adorable.png'
+              }
               alt="Profile Pic"
             />
           </Profile>

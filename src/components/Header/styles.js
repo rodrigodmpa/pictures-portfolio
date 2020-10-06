@@ -1,13 +1,22 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  background: #fff;
-  padding: 0 30px;
+  background: ${(props) => props.color};
+  padding: 10px 30px;
+  position: fixed;
+  margin-left: auto;
+  margin-right: auto;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 80px;
+  transition: background 0.7s;
+  z-index: 100;
 `;
 
 export const Content = styled.div`
   height: 64px;
-  max-width: 900px;
+  max-width: 1400px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -45,16 +54,19 @@ export const Profile = styled.div`
     margin-right: 10px;
     strong {
       display: block;
-      color: #333;
+      color: ${(props) => props.fontColor};
+      transition: color 0.7s;
     }
     a {
       display: block;
       margin-top: 2px;
       font-size: 12px;
-      color: #999;
+      color: ${(props) => props.fontColor};
+      transition: color 0.7s;
     }
   }
   img {
+    width: 32px;
     height: 32px;
     border-radius: 50%;
   }
