@@ -6,16 +6,16 @@ import { Container, Content, Profile } from './styles';
 
 function Header() {
   const profile = useSelector((state) => state.user.profile);
-  const [headerColor, setHeaderColor] = useState('white');
+  const [headerColor, setHeaderColor] = useState('#00000000');
   const [fontColor, setFontColor] = useState('black');
 
   useEffect(() => {
     function listenScrollEvent() {
-      if (window.scrollY > 100) {
-        setHeaderColor('black');
+      if (window.scrollY > 20) {
+        setHeaderColor('#000000EE');
         setFontColor('white');
       } else {
-        setHeaderColor('white');
+        setHeaderColor('#00000000');
         setFontColor('black');
       }
     }
@@ -24,7 +24,7 @@ function Header() {
 
   return (
     <Container color={headerColor}>
-      <Content>
+      <Content fontColor={fontColor}>
         <nav>
           <img
             src="https://api.adorable.io/avatars/50/abott@adorable.png"

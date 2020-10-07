@@ -18,7 +18,7 @@ function Profile() {
     dispatch(updateProfileRequest(data));
   }
 
-  function handleSignOut(data) {
+  function handleSignOut() {
     dispatch(signOut());
   }
   return (

@@ -10,45 +10,59 @@ export const Title = styled.div`
   padding: 10px;
 `;
 
-export const Container = styled.div`
+export const ListContainer = styled.div`
   position: relative;
   max-width: 650px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  padding: 30px;
   background: #fff;
   margin: 30px auto;
   display: block;
   border: none;
   border-radius: 5px;
-  @media (max-width: 800px) {
-    max-width: 400px;
-  }
+`;
+
+export const ItemContainer = styled.div`
+  padding-top: 20px;
 `;
 
 export const Item = styled.div`
-  /* margin: 5px;
-  padding: 15px; */
   text-align: center;
-  font-size: 1.5em;
-  border: 1px solid black;
+
+  /* border: 1px solid black; */
   img {
-    max-width: 450px;
+    max-width: 100%;
   }
   div {
+    padding-left: 20px;
     color: rgba(0, 0, 0);
-    font-size: 16px;
-    max-width: 400px;
+    font-size: 15px;
     margin: 5px auto;
     text-align: initial;
-    div {
+    span {
+      display: block;
+      padding-bottom: 20px;
       color: rgba(0, 0, 0, 0.3);
-      font-size: 14px;
+      font-size: 13px;
     }
   }
+`;
 
-  @media (max-width: 800px) {
-    img {
-      max-width: 250px;
+export const Profile = styled.div`
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+
+  div {
+    text-align: left;
+    margin-left: 10px;
+    strong {
+      display: block;
+      color: black;
     }
+  }
+  img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
   }
 `;

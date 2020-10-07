@@ -9,13 +9,11 @@ export const Container = styled.div`
   top: 0;
   right: 0;
   width: 100%;
-  height: 80px;
   transition: background 0.7s;
   z-index: 100;
 `;
 
 export const Content = styled.div`
-  height: 64px;
   max-width: 1400px;
   margin: 0 auto;
   display: flex;
@@ -34,7 +32,7 @@ export const Content = styled.div`
 
     a {
       font-weight: bold;
-      color: #7159c1;
+      color: ${(props) => props.fontColor};
     }
   }
   aside {

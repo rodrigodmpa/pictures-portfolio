@@ -29,7 +29,9 @@ function AvatarInput() {
 
     const response = await api.post('files', data);
 
-    const { id, url } = response.data;
+    console.log(response);
+
+    const { id, url } = response.data.file;
     setFile(id);
     setPreview(url);
   }
