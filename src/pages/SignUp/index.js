@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
-import couple from '~/assets/img/couple1.png';
+import api from '~/services/api';
+import Loading from '~/components/Loading';
 
 import { signUpRequest } from '~/store/modules/auth/actions';
 
@@ -22,6 +23,22 @@ const schema = Yup.object().shape({
   ),
 });
 function SignIn() {
+  const [image, setImage] = useState({});
+
+  useEffect(() => {
+    let mounted = false;
+    async function getRandomImage() {
+      const randomImage = await api.get('/random-post');
+      setImage(randomImage.data.image);
+    }
+    if (!mounted) {
+      getRandomImage();
+    }
+    return () => {
+      mounted = true;
+    };
+  }, []);
+
   const dispatch = useDispatch();
   function handleSubmit({ name, email, password }) {
     dispatch(signUpRequest(name, email, password));
@@ -29,7 +46,7 @@ function SignIn() {
 
   return (
     <>
-      <img src={couple} alt="Couple" />
+      {image.url ? <img src={image.url} alt={image.name} /> : <Loading />}
       <Form schema={schema} onSubmit={handleSubmit}>
         <Input name="name" placeholder="Nome completo" />
         <Input name="email" type="email" placeholder="Seu email" />

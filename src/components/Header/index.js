@@ -20,6 +20,9 @@ function Header() {
       }
     }
     window.addEventListener('scroll', listenScrollEvent);
+    return () => {
+      window.removeEventListener('scroll', listenScrollEvent);
+    };
   }, []);
 
   return (
@@ -30,7 +33,9 @@ function Header() {
             src="https://api.adorable.io/avatars/50/abott@adorable.png"
             alt="Dimi e Rodi"
           />
-          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/dashboard" replace>
+            Dashboard
+          </Link>
         </nav>
 
         <aside>

@@ -16,10 +16,11 @@ export function* signIn({ payload }) {
 
     const { token, user } = response.data;
 
-    if (!user.admin) {
-      toast.error('Sem permissão para acessar o site.');
-      return;
-    }
+    // if (!user.admin) {
+    //   toast.error('Sem permissão para acessar o site.');
+    //   yield put(signInSuccess(token, user));
+    //   return;
+    // }
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
     yield put(signInSuccess(token, user));
@@ -40,7 +41,6 @@ export function* signUp({ payload }) {
       name,
       email,
       password,
-      admin: true,
     });
     history.push('/');
   } catch (err) {

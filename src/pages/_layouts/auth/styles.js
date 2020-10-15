@@ -17,6 +17,7 @@ export const Content = styled.div`
 
   img {
     max-width: 300px;
+    max-height: 400px;
     filter: drop-shadow(8px 8px 10px black);
   }
 

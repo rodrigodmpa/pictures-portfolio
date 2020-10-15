@@ -1,27 +1,102 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
-import { Input, Form, Textarea } from '@rocketseat/unform';
+import { useDispatch } from 'react-redux';
 
-import { Container } from './styles';
+import { useField, Input, Form } from '@rocketseat/unform';
 
-function PostForm() {
-  function handleSubmit(e) {
-    console.log(e.target);
+import { Container, UploadInputContainer } from './styles';
+
+import uploadImageDefault from '~/assets/img/uploadImageDefault.png';
+
+import { postPostRequest } from '~/store/modules/dashboard/actions';
+
+function PostForm({ disable = false }) {
+  const { defaultValue, registerField } = useField('image');
+  const [preview, setPreview] = useState(defaultValue && defaultValue.url);
+  const dispatch = useDispatch();
+
+  const [file, setFile] = useState({});
+
+  const ref = useRef();
+
+  useEffect(() => {
+    if (ref.current) {
+      registerField({
+        name: 'post_image_id',
+        ref: ref.current,
+        path: 'dataset.file',
+      });
+    }
+  }, [ref, registerField]);
+
+  function handleChange(e) {
+    setFile(e.target.files[0]);
+    setPreview(URL.createObjectURL(e.target.files[0]));
   }
+
+  async function handleSubmit(e) {
+    const data = {
+      file,
+      title: e.title,
+      subtitle: e.subtitle,
+      real_date: e.date,
+    };
+
+    dispatch(postPostRequest(data));
+  }
+
   return (
-    <Container>
-      <Form onSubmit={handleSubmit}>
-        <Textarea name="title" type="text" placeholder="Descrição" />
-        <Input name="subtitle" type="text" placeholder="Local" />
+    !disable && (
+      <Container>
+        <Form onSubmit={handleSubmit}>
+          <Input
+            alt="Texto"
+            rows={3}
+            cols={5}
+            multiline
+            name="title"
+            type="text"
+            placeholder="Qual a história?"
+            required
+          />
 
-        <hr />
-        <input name="date" type="date" placeholder="Data" />
-        {/* <ImageInput name="avatar_id" /> */}
-        <input type="file" id="avatar" accept="image/*" />
+          <Input
+            name="subtitle"
+            type="text"
+            placeholder="Onde aconteceu?"
+            alt="Local"
+            maxLength={25}
+          />
 
-        <button type="submit">Atualizar perfil</button>
-      </Form>
-    </Container>
+          <Input
+            name="date"
+            type="datetime-local"
+            placeholder="Quando aconteceu?"
+            alt="Data"
+          />
+
+          {/* <UploadInput name="post_image_id" placeholder="Imagem" /> */}
+
+          <UploadInputContainer>
+            <label htmlFor="post_image">
+              <img src={preview || uploadImageDefault} alt=" " />
+              <input
+                alt="Arquivo"
+                placeholder="Imagem"
+                type="file"
+                id="post_image"
+                accept="image/*"
+                data-file={file}
+                onChange={handleChange}
+                ref={ref}
+              />
+            </label>
+          </UploadInputContainer>
+
+          <button type="submit">Postar</button>
+        </Form>
+      </Container>
+    )
   );
 }
 

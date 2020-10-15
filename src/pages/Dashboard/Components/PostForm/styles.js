@@ -7,27 +7,38 @@ export const Container = styled.div`
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   background: #fff;
   margin: 30px auto;
-  display: block;
+  display: flex;
   border: none;
   border-radius: 5px;
+
+  h2 {
+  }
   form {
     margin: 30px auto;
-    max-width: 350px;
+    max-width: 100%;
     display: flex;
     flex-direction: column;
 
-    textarea {
-      background: rgba(0, 0, 0, 0.1);
-      border: 0;
+    input {
+      background: white;
       border-radius: 4px;
-      height: 44px;
-      padding: 0 15px;
-      color: #fff;
-      margin: 0 0 10px;
+      border: 1px solid rgba(0, 0, 0, 0.5);
+      height: 30px;
+      padding: 15px;
+      margin: 15px;
+      color: #000;
+      max-width: 100%;
+    }
 
-      &::placeholder {
-        color: rgba(255, 255, 255, 0.7);
-      }
+    @media (max-width: 800px) {
+    }
+    textarea {
+      background: white;
+      border-radius: 4px;
+      padding: 15px;
+      margin: 15px;
+      color: #000;
+      resize: none;
     }
 
     span {
@@ -35,12 +46,6 @@ export const Container = styled.div`
       align-self: flex-start;
       margin: 0 0 10px;
       font-weight: bold;
-    }
-    hr {
-      border: 0;
-      height: 1px;
-      background: rgba(255, 255, 255, 0.2);
-      margin: 10px 0 20px;
     }
 
     button {
@@ -58,20 +63,28 @@ export const Container = styled.div`
       }
     }
   }
+`;
+export const UploadInputContainer = styled.div`
+  align-self: center;
+  margin-bottom: 30px;
 
-  > button {
-    width: 100%;
-    margin: 10px 0;
-    height: 44px;
-    background: #f64c75;
-    font-weight: bold;
-    color: #fff;
-    border: 0;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: background 0.3s;
+  label {
+    cursor: pointer;
+
     &:hover {
-      background: ${darken(0.2, '#f64c75')};
+      opacity: 0.7;
+    }
+    img {
+      border: 2px solid black;
+      border-radius: 3px;
+      height: 120px;
+      width: 120px;
+    }
+
+    input {
+      display: none;
     }
   }
 `;
+
+export const Row = styled.div``;

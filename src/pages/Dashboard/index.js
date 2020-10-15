@@ -1,51 +1,69 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import debounce from 'lodash.debounce';
 
-import { formatDistance, parseISO } from 'date-fns';
-import pt from 'date-fns/locale/pt';
+import Loading from '~/components/Loading';
+
 import { ListContainer, ItemContainer, Item, Profile } from './styles';
 import default_image from '~/assets/img/default_image.jpg';
-import api from '~/services/api';
 import PostForm from './Components/PostForm';
+import {
+  getPostsRequest,
+  cleanPostsRequest,
+} from '~/store/modules/dashboard/actions';
 
 function Dashboard() {
-  const [posts, setPosts] = useState([]);
+  const dispatch = useDispatch();
+
+  const posts = useSelector((state) => state.dashboard.posts);
+  const user = useSelector((state) => state.user.profile);
+  const paginationInfo = useSelector(
+    (state) => state.dashboard.pagination_info
+  );
+  const postsAreLoading = useSelector(
+    (state) => state.dashboard.postsAreLoading
+  );
 
   useEffect(() => {
-    async function getPosts() {
-      const response = await api.get('posts');
-      const rawPosts = response.data.posts;
-      const formattedPost = rawPosts.map((post) => {
-        const formattedRealDate = post.real_date
-          ? formatDistance(
-              parseISO(post.real_date),
-              new Date(),
-              {
-                addSuffix: true,
-                locale: pt,
-              },
-              new Date()
-            )
-          : 'Um dia aí...';
-        return {
-          ...post,
-          formattedRealDate,
-        };
-      });
-      setPosts(formattedPost);
+    dispatch(cleanPostsRequest());
+    dispatch(getPostsRequest({ page: 1, limit: 5 }));
+  }, [dispatch]);
+
+  function loadMorePosts() {
+    if (paginationInfo.current_page < paginationInfo.total_pages) {
+      dispatch(
+        getPostsRequest({
+          page: parseInt(paginationInfo.current_page, 10) + 1,
+          limit: 5,
+        })
+      );
     }
-    getPosts();
-  }, []);
+  }
+
+  window.onbeforeunload = function scrollToTop() {
+    window.scrollTo(0, 0);
+  };
+
+  window.onscroll = debounce(() => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 1 >=
+      document.scrollingElement.scrollHeight
+    ) {
+      loadMorePosts();
+    }
+  }, 100);
 
   function showDefaultImage(e) {
     e.target.attributes.src.value = default_image;
   }
   return (
     <>
-      <PostForm />
-      <ListContainer>
-        {posts.length &&
-          posts.map((post) => (
-            <ItemContainer key={post.url}>
+      <PostForm disable={!user.admin} />
+
+      {posts &&
+        posts.map((post) => (
+          <ListContainer key={post.url}>
+            <ItemContainer>
               <Profile>
                 <img
                   src={
@@ -59,13 +77,12 @@ function Dashboard() {
                 </div>
                 &nbsp;&nbsp;•
                 <div>{post.formattedRealDate}</div>
+                &nbsp;&nbsp;•
+                <div>{post.subtitle}</div>
               </Profile>
 
               <Item key={post.url}>
-                <div>
-                  {post.title}
-                  <span>{post.subtitle}</span>
-                </div>
+                <div>{post.title}</div>
                 <img
                   alt={post.name}
                   onError={showDefaultImage}
@@ -73,8 +90,9 @@ function Dashboard() {
                 />
               </Item>
             </ItemContainer>
-          ))}
-      </ListContainer>
+          </ListContainer>
+        ))}
+      {postsAreLoading && <Loading height={50} width={50} color="white" />}
     </>
   );
 }

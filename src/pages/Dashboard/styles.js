@@ -15,10 +15,10 @@ export const ListContainer = styled.div`
   max-width: 650px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   background: #fff;
-  margin: 30px auto;
+  margin: 10px auto;
   display: block;
   border: none;
-  border-radius: 5px;
+  border-radius: 3px;
 `;
 
 export const ItemContainer = styled.div`
@@ -31,13 +31,16 @@ export const Item = styled.div`
   /* border: 1px solid black; */
   img {
     max-width: 100%;
+    margin: 0px auto;
+    max-height: 90vh;
   }
   div {
     padding-left: 20px;
     color: rgba(0, 0, 0);
     font-size: 15px;
-    margin: 5px auto;
+    margin: 15px 15px;
     text-align: initial;
+    overflow-wrap: break-word;
     span {
       display: block;
       padding-bottom: 20px;
@@ -53,8 +56,10 @@ export const Profile = styled.div`
   align-items: center;
 
   div {
+    overflow-wrap: break-word;
     text-align: left;
     margin-left: 10px;
+
     strong {
       display: block;
       color: black;

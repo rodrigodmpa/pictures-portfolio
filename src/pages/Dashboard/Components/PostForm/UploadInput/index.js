@@ -4,8 +4,8 @@ import api from '~/services/api';
 
 import { Container } from './styles';
 
-function AvatarInput() {
-  const { defaultValue, registerField } = useField('avatar');
+function UploadInput({ placeholder }) {
+  const { defaultValue, registerField } = useField('image');
   const [file, setFile] = useState(defaultValue && defaultValue.id);
 
   const [preview, setPreview] = useState(defaultValue && defaultValue.url);
@@ -15,7 +15,7 @@ function AvatarInput() {
   useEffect(() => {
     if (ref.current) {
       registerField({
-        name: 'avatar_id',
+        name: 'post_image_id',
         ref: ref.current,
         path: 'dataset.file',
       });
@@ -26,17 +26,18 @@ function AvatarInput() {
     const data = new FormData();
 
     data.append('file', e.target.files[0]);
+    data.append('title', e.target.title[0]);
 
-    const response = await api.post('files', data);
+    const response = await api.post('posts', data);
 
-    const { id, url } = response.data.file;
+    const { id, url } = response.data.post;
     setFile(id);
     setPreview(url);
   }
 
   return (
     <Container>
-      <label htmlFor="avatar">
+      <label htmlFor="post_image">
         <img
           src={
             preview || 'https://api.adorable.io/avatars/50/abott@adorable.png'
@@ -44,8 +45,9 @@ function AvatarInput() {
           alt=" "
         />
         <input
+          placeholder={placeholder}
           type="file"
-          id="avatar"
+          id="post_image"
           accept="image/*"
           data-file={file}
           onChange={handleChange}
@@ -56,4 +58,4 @@ function AvatarInput() {
   );
 }
 
-export default AvatarInput;
+export default UploadInput;
