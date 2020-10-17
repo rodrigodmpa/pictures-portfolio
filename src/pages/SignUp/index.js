@@ -46,7 +46,11 @@ function SignIn() {
 
   return (
     <>
-      {image.url ? <img src={image.url} alt={image.name} /> : <Loading />}
+      {image && image.url ? (
+        <img src={image.url} alt={image.name} />
+      ) : (
+        <Loading color="white" />
+      )}
       <Form schema={schema} onSubmit={handleSubmit}>
         <Input name="name" placeholder="Nome completo" />
         <Input name="email" type="email" placeholder="Seu email" />

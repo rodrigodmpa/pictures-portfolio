@@ -51,6 +51,12 @@ export function* postPost({ payload }) {
   try {
     const { title, subtitle, file, real_date } = payload.data;
 
+    if (file.size >= 1024 * 1024 * 10) {
+      toast.error('Foto deve ser menor que 10MB');
+      yield put(postPostFailure());
+      return;
+    }
+
     const data = new FormData();
     if (file) data.append('file', file);
     if (title) data.append('title', title);
@@ -61,9 +67,8 @@ export function* postPost({ payload }) {
 
     yield put(postPostSuccess(response.data.dashboard));
 
-    toast.success('Post realizado com sucesso!');
-
     window.location.reload();
+    // toast.success('Post realizado com sucesso!');
   } catch (err) {
     toast.error('Erro ao postar.');
 

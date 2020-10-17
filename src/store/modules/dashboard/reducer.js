@@ -20,7 +20,6 @@ export default function dashboard(state = INITIAL_STATE, action) {
         break;
       }
       case '@dashboard/POST_POST_SUCCESS': {
-        // draft.posts.push(action.payload.post);
         break;
       }
       case '@auth/SIGN_OUT': {

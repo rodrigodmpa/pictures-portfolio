@@ -1,37 +1,35 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 
-import { useField, Input, Form } from '@rocketseat/unform';
+import { Input, Form } from '@rocketseat/unform';
 
-import { Container, UploadInputContainer } from './styles';
-
-import uploadImageDefault from '~/assets/img/uploadImageDefault.png';
+import { FaImage, FaArrowRight } from 'react-icons/fa';
+import { Container, UploadInputContainer, Row, MaxLenght } from './styles';
 
 import { postPostRequest } from '~/store/modules/dashboard/actions';
 
 function PostForm({ disable = false }) {
-  const { defaultValue, registerField } = useField('image');
-  const [preview, setPreview] = useState(defaultValue && defaultValue.url);
+  const textAreaMaxLength = 3000;
+  const [preview, setPreview] = useState(null);
+  const [remainingChar, setRemainingChar] = useState(textAreaMaxLength);
+
   const dispatch = useDispatch();
 
   const [file, setFile] = useState({});
 
-  const ref = useRef();
-
-  useEffect(() => {
-    if (ref.current) {
-      registerField({
-        name: 'post_image_id',
-        ref: ref.current,
-        path: 'dataset.file',
-      });
-    }
-  }, [ref, registerField]);
-
   function handleChange(e) {
     setFile(e.target.files[0]);
-    setPreview(URL.createObjectURL(e.target.files[0]));
+    setPreview(1);
+  }
+
+  function countLen(e) {
+    let remaining = textAreaMaxLength - e.target.value.length;
+    if (remaining <= 0) {
+      remaining = 0;
+      e.target.value = e.target.value.substring(0, textAreaMaxLength);
+    }
+    setRemainingChar(remaining);
   }
 
   async function handleSubmit(e) {
@@ -44,56 +42,57 @@ function PostForm({ disable = false }) {
 
     dispatch(postPostRequest(data));
   }
-
   return (
     !disable && (
       <Container>
         <Form onSubmit={handleSubmit}>
           <Input
             alt="Texto"
-            rows={3}
+            rows={5}
             cols={5}
             multiline
             name="title"
             type="text"
             placeholder="Qual a história?"
             required
+            onChange={countLen}
+            maxLength="3000"
           />
+          <MaxLenght>Caracteres restantes: {remainingChar}</MaxLenght>
+          <Row>
+            <Input
+              name="subtitle"
+              type="text"
+              placeholder="Onde aconteceu?"
+              alt="Local"
+              maxLength={25}
+            />
 
-          <Input
-            name="subtitle"
-            type="text"
-            placeholder="Onde aconteceu?"
-            alt="Local"
-            maxLength={25}
-          />
+            <Input
+              name="date"
+              type="datetime-local"
+              placeholder="Quando aconteceu?"
+              alt="Data"
+            />
+            <UploadInputContainer>
+              <label htmlFor="post_image">
+                <FaImage size="25px" />
 
-          <Input
-            name="date"
-            type="datetime-local"
-            placeholder="Quando aconteceu?"
-            alt="Data"
-          />
-
-          {/* <UploadInput name="post_image_id" placeholder="Imagem" /> */}
-
-          <UploadInputContainer>
-            <label htmlFor="post_image">
-              <img src={preview || uploadImageDefault} alt=" " />
-              <input
-                alt="Arquivo"
-                placeholder="Imagem"
-                type="file"
-                id="post_image"
-                accept="image/*"
-                data-file={file}
-                onChange={handleChange}
-                ref={ref}
-              />
-            </label>
-          </UploadInputContainer>
-
-          <button type="submit">Postar</button>
+                <input
+                  alt="Arquivo"
+                  placeholder="Imagem"
+                  type="file"
+                  id="post_image"
+                  accept="image/*"
+                  data-file={file}
+                  onChange={handleChange}
+                />
+              </label>
+            </UploadInputContainer>
+            <button type="submit" title="insira uma imagem" disabled={!preview}>
+              <FaArrowRight size="20px" />
+            </button>
+          </Row>
         </Form>
       </Container>
     )

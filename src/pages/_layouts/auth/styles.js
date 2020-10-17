@@ -20,6 +20,13 @@ export const Content = styled.div`
     max-height: 400px;
     filter: drop-shadow(8px 8px 10px black);
   }
+  @media (max-width: 850px) {
+    img {
+      max-width: 300px;
+      max-height: 35vh;
+      filter: drop-shadow(8px 8px 10px black);
+    }
+  }
 
   form {
     display: flex;
