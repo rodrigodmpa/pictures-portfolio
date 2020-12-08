@@ -19,7 +19,7 @@ export default function Routes() {
 
       <Route path="/profile" component={Profile} isPrivate />
 
-      <Route path="/" component={() => <h1>404</h1>} />
+      <Route path="/" component={() => <h1>404 Not Found</h1>} />
     </Switch>
   );
 }

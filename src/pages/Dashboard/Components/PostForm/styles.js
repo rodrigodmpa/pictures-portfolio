@@ -22,7 +22,7 @@ export const Container = styled.div`
     input {
       background: white;
       border-radius: 4px;
-      border: 1px solid rgba(0, 0, 0, 0.5);
+      border: 1px solid #7159c1;
       height: 30px;
       padding: 15px;
       margin: 5px;
@@ -48,11 +48,28 @@ export const Container = styled.div`
       border: none;
       transition: font-size 0.3s;
       &::placeholder {
-        font-size: 30px;
+        font-size: 40px;
+        padding: 20px 0 0 20px;
       }
       &:focus {
         &::placeholder {
           font-size: 15px;
+          padding: 0;
+        }
+      }
+    }
+
+    @media (max-width: 850px) {
+      textarea {
+        &::placeholder {
+          font-size: 30px;
+          padding: 10px 0 0 10px;
+        }
+        &:focus {
+          &::placeholder {
+            font-size: 15px;
+            padding: 0;
+          }
         }
       }
     }

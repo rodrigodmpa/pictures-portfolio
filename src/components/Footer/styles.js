@@ -16,6 +16,12 @@ export const Column = styled.div`
 `;
 
 export const Row = styled.div`
-  display: block;
   padding: 3px;
+  color: white;
+  align-items: center;
+
+  a {
+    text-decoration: none;
+    color: #fff;
+  }
 `;

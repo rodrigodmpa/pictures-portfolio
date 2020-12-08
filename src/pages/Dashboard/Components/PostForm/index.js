@@ -53,7 +53,7 @@ function PostForm({ disable = false }) {
             multiline
             name="title"
             type="text"
-            placeholder="Qual a história?"
+            placeholder="Qual a história de hoje?"
             required
             onChange={countLen}
             maxLength="3000"

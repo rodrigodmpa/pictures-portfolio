@@ -3,6 +3,7 @@ import produce from 'immer';
 const INITIAL_STATE = {
   posts: [],
   pagination_info: null,
+  popUpMoreInfoVisible: false,
   postsAreLoading: false,
 };
 

@@ -4,9 +4,8 @@ import debounce from 'lodash.debounce';
 
 import Loading from '~/components/Loading';
 
-import { ListContainer, ItemContainer, Item, Profile } from './styles';
-import default_image from '~/assets/img/default_image.jpg';
 import PostForm from './Components/PostForm';
+import PostItem from './Components/PostItem';
 import {
   getPostsRequest,
   cleanPostsRequest,
@@ -30,7 +29,10 @@ function Dashboard() {
   }, [dispatch]);
 
   function loadMorePosts() {
-    if (paginationInfo.current_page < paginationInfo.total_pages) {
+    if (
+      paginationInfo &&
+      paginationInfo.current_page < paginationInfo.total_pages
+    ) {
       dispatch(
         getPostsRequest({
           page: parseInt(paginationInfo.current_page, 10) + 1,
@@ -52,46 +54,11 @@ function Dashboard() {
       loadMorePosts();
     }
   }, 100);
-
-  function showDefaultImage(e) {
-    e.target.attributes.src.value = default_image;
-  }
   return (
     <>
       <PostForm disable={!user.admin} />
 
-      {posts &&
-        posts.map((post) => (
-          <ListContainer key={post.url}>
-            <ItemContainer>
-              <Profile>
-                <img
-                  src={
-                    (post.user.avatar && post.user.avatar.url) ||
-                    'https://api.adorable.io/avatars/50/abott@adorable.png'
-                  }
-                  alt="Profile Pic"
-                />
-                <div>
-                  <strong>{post.user.name}</strong>
-                </div>
-                &nbsp;&nbsp;•
-                <div>{post.formattedRealDate}</div>
-                &nbsp;&nbsp;•
-                <div>{post.subtitle}</div>
-              </Profile>
-
-              <Item key={post.url}>
-                <div>{post.title}</div>
-                <img
-                  alt={post.name}
-                  onError={showDefaultImage}
-                  src={post.url}
-                />
-              </Item>
-            </ItemContainer>
-          </ListContainer>
-        ))}
+      {posts && posts.map((post) => <PostItem key={post.path} post={post} />)}
       {postsAreLoading && <Loading height={50} width={50} color="white" />}
     </>
   );

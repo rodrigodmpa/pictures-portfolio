@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useField } from '@rocketseat/unform';
 import api from '~/services/api';
 
@@ -6,6 +7,7 @@ import { Container } from './styles';
 
 function AvatarInput() {
   const { defaultValue, registerField } = useField('avatar');
+  const profile = useSelector((state) => state.user.profile);
   const [file, setFile] = useState(defaultValue && defaultValue.id);
 
   const [preview, setPreview] = useState(defaultValue && defaultValue.url);
@@ -39,7 +41,8 @@ function AvatarInput() {
       <label htmlFor="avatar">
         <img
           src={
-            preview || 'https://api.adorable.io/avatars/50/abott@adorable.png'
+            preview ||
+            `https://avatars.dicebear.com/api/bottts/${profile.name}.svg`
           }
           alt=" "
         />

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import avatar from '../../assets/img/logos/avatar.png';
+
 import { Container, Content, Profile } from './styles';
 
 function Header() {
@@ -29,10 +31,7 @@ function Header() {
     <Container color={headerColor}>
       <Content fontColor={fontColor}>
         <nav>
-          <img
-            src="https://api.adorable.io/avatars/50/abott@adorable.png"
-            alt="Dimi e Rodi"
-          />
+          <img src={avatar} alt="OiMor" />
           <Link to="/dashboard" replace>
             Dashboard
           </Link>
@@ -47,7 +46,7 @@ function Header() {
             <img
               src={
                 (profile.avatar && profile.avatar.url) ||
-                'https://api.adorable.io/avatars/50/abott@adorable.png'
+                `https://avatars.dicebear.com/api/bottts/${profile.name}.svg`
               }
               alt="Profile Pic"
             />

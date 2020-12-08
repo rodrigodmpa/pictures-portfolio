@@ -56,6 +56,11 @@ export function* postPost({ payload }) {
       yield put(postPostFailure());
       return;
     }
+    if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+      toast.error('Formato inválido, use jpg, png, jpeg');
+      yield put(postPostFailure());
+      return;
+    }
 
     const data = new FormData();
     if (file) data.append('file', file);
@@ -83,7 +88,6 @@ export function resetPage() {
     toast.error('Erro.');
   }
 }
-
 export default all([
   takeLatest('@dashboard/GET_POSTS_REQUEST', getPosts),
   takeLatest('@dashboard/POST_POST_REQUEST', postPost),
