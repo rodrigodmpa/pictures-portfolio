@@ -80,7 +80,13 @@ function PostItem(post) {
             &nbsp;&nbsp;•
             <div>{post.post.subtitle}</div>
           </Profile>
-          <MoreInfoContainer visibility={profile.admin ? 'visible' : 'hidden'}>
+          <MoreInfoContainer
+            visibility={
+              profile.admin && profile.id === post.post.user.id
+                ? 'visible'
+                : 'hidden'
+            }
+          >
             <button type="button" onClick={toglePopUpMoreInfo}>
               <FaEllipsisH />
             </button>
