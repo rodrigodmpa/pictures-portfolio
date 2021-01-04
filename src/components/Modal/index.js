@@ -45,7 +45,7 @@ Modal.defaultProps = {
       left: '50%',
       right: 'auto',
       bottom: 'auto',
-      width: '500px',
+      width: 'auto',
       height: 'auto',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
