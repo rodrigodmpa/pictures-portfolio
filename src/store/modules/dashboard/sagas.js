@@ -1,5 +1,5 @@
 import { takeLatest, call, put, all } from 'redux-saga/effects';
-import { formatDistance, parseISO } from 'date-fns';
+import { formatDistance, parseISO, format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import { toast } from 'react-toastify';
 import api from '~/services/api';
@@ -9,6 +9,7 @@ import {
   getPostsSuccess,
   getPostsFailure,
   deletePostSuccess,
+  updatePostSuccess,
 } from './actions';
 
 export function* getPosts({ payload }) {
@@ -36,6 +37,7 @@ export function* getPosts({ payload }) {
         ...post,
         subtitle: post.subtitle ? post.subtitle : 'Num lugar aí...',
         formattedRealDate,
+        ISODate: format(parseISO(post.real_date), "yyyy-MM-dd'T'HH:mm"),
       };
     });
     const final_posts = { posts: formattedPosts, pagination_info };
@@ -99,6 +101,30 @@ export function* deletePost({ payload }) {
   }
 }
 
+export function* updatePost({ payload }) {
+  try {
+    const { id, title, subtitle, real_date } = payload.data;
+    const data = new FormData();
+    if (title) data.append('title', title);
+    if (subtitle) data.append('subtitle', subtitle);
+    if (real_date) data.append('real_date', real_date);
+
+    const response = yield call(api.put, `posts/${id}`, {
+      title,
+      subtitle,
+      real_date,
+    });
+    yield put(updatePostSuccess(response.data.dashboard));
+
+    window.location.reload();
+    // toast.success('Post realizado com sucesso!');
+  } catch (err) {
+    toast.error('Erro ao editar o post.');
+
+    // yield put(updatePostFailure());
+  }
+}
+
 export function resetPage() {
   try {
     window.scrollTo(0, 0);
@@ -111,4 +137,5 @@ export default all([
   takeLatest('@dashboard/POST_POST_REQUEST', postPost),
   takeLatest('@dashboard/CLEAN_POSTS_REQUEST', resetPage),
   takeLatest('@dashboard/DELETE_POSTS_REQUEST', deletePost),
+  takeLatest('@dashboard/UPDATE_POST_REQUEST', updatePost),
 ]);

@@ -73,6 +73,7 @@ function PostForm({ disable = false }) {
               type="datetime-local"
               placeholder="Quando aconteceu?"
               alt="Data"
+              defaultValue={new Date()}
             />
             <UploadInputContainer>
               <label htmlFor="post_image">

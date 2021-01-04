@@ -4,6 +4,8 @@ import { FaEllipsisH } from 'react-icons/fa';
 import { confirmAlert } from 'react-confirm-alert';
 import default_image from '~/assets/img/default_image.jpg';
 import { deletePostsRequest } from '~/store/modules/dashboard/actions';
+import Modal from '~/components/Modal';
+import EditPostForm from '~/pages/Dashboard/Components/EditPostForm';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import {
   ListContainer,
@@ -18,6 +20,14 @@ import {
 
 function PostItem(post) {
   const [popUpVisibility, setPopUpVisibility] = useState('hidden');
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+  function openModal() {
+    setIsOpen(true);
+    setPopUpVisibility('hidden');
+  }
+  function closeModal() {
+    setIsOpen(false);
+  }
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.user.profile);
 
@@ -75,7 +85,13 @@ function PostItem(post) {
               <FaEllipsisH />
             </button>
             <PopUpMoreInfo visibility={popUpVisibility}>
-              <MoreInfoOption onClick={toglePopUpMoreInfo}>Edit</MoreInfoOption>
+              <MoreInfoOption onClick={openModal}>Edit</MoreInfoOption>
+              <Modal modalIsOpen={modalIsOpen}>
+                <EditPostForm post={post.post} />
+                <button type="submit" onClick={closeModal}>
+                  Fechar
+                </button>{' '}
+              </Modal>
               <MoreInfoOption onClick={() => deletePost(post.post.id)}>
                 Delete
               </MoreInfoOption>

@@ -51,8 +51,23 @@ export function deletePostsRequest(post_id) {
   };
 }
 
-export function deletePostSuccess() {
+export function deletePostSuccess(data) {
   return {
     type: '@dashboard/DELETE_POST_SUCCESS',
+    payload: { data },
+  };
+}
+
+export function updatePostRequest(data) {
+  return {
+    type: '@dashboard/UPDATE_POST_REQUEST',
+    payload: { data },
+  };
+}
+
+export function updatePostSuccess(data) {
+  return {
+    type: '@dashboard/UPDATE_POST_SUCCESS',
+    payload: { data },
   };
 }
