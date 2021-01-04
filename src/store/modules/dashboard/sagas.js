@@ -8,6 +8,7 @@ import {
   postPostFailure,
   getPostsSuccess,
   getPostsFailure,
+  deletePostSuccess,
 } from './actions';
 
 export function* getPosts({ payload }) {
@@ -81,6 +82,23 @@ export function* postPost({ payload }) {
   }
 }
 
+export function* deletePost({ payload }) {
+  try {
+    const { post_id } = payload;
+
+    const response = yield call(api.delete, `posts/${post_id}`);
+
+    yield put(deletePostSuccess(response.data));
+
+    // toast.success('Post deletado com sucesso!');
+    window.location.reload();
+  } catch (err) {
+    toast.error('Erro ao deletar post.');
+
+    // yield put(deletePostFailure());
+  }
+}
+
 export function resetPage() {
   try {
     window.scrollTo(0, 0);
@@ -92,4 +110,5 @@ export default all([
   takeLatest('@dashboard/GET_POSTS_REQUEST', getPosts),
   takeLatest('@dashboard/POST_POST_REQUEST', postPost),
   takeLatest('@dashboard/CLEAN_POSTS_REQUEST', resetPage),
+  takeLatest('@dashboard/DELETE_POSTS_REQUEST', deletePost),
 ]);

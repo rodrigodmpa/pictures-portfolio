@@ -69,6 +69,7 @@ export const Profile = styled.div`
 `;
 
 export const MoreInfoContainer = styled.div`
+  visibility: ${(props) => props.visibility};
   position: relative;
   padding-right: 10px;
   align-items: center;

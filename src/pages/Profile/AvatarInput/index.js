@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useField } from '@rocketseat/unform';
+import { toast } from 'react-toastify';
 import api from '~/services/api';
 
 import { Container } from './styles';
@@ -28,6 +29,18 @@ function AvatarInput() {
     const data = new FormData();
 
     data.append('file', e.target.files[0]);
+
+    if (e.target.files[0].size >= 1024 * 1024 * 2) {
+      toast.error('Foto deve ser menor que 2MB');
+      return;
+    }
+    if (
+      e.target.files[0].type !== 'image/jpeg' &&
+      e.target.files[0].type !== 'image/png'
+    ) {
+      toast.error('Formato inválido, use jpg, png ou jpeg');
+      return;
+    }
 
     const response = await api.post('files', data);
 

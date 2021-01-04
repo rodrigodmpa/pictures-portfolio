@@ -43,3 +43,16 @@ export function postPostFailure() {
     type: '@dashboard/POST_POST_FAILURE',
   };
 }
+
+export function deletePostsRequest(post_id) {
+  return {
+    type: '@dashboard/DELETE_POSTS_REQUEST',
+    payload: { post_id },
+  };
+}
+
+export function deletePostSuccess() {
+  return {
+    type: '@dashboard/DELETE_POST_SUCCESS',
+  };
+}

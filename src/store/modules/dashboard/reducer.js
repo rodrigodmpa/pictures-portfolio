@@ -23,6 +23,9 @@ export default function dashboard(state = INITIAL_STATE, action) {
       case '@dashboard/POST_POST_SUCCESS': {
         break;
       }
+      case '@dashboard/DELETE_POST_SUCCESS': {
+        break;
+      }
       case '@auth/SIGN_OUT': {
         draft.posts = [];
         draft.pagination_info = null;
