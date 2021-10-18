@@ -119,3 +119,25 @@ export const MoreInfoOption = styled.span`
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
 `;
+
+export const Footer = styled.div`
+  margin: 10px;
+  /* text-align: center; */
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  font-size: 20px;
+  svg {
+    margin: 10px 30px 10px 30px;
+    font-size: 25px;
+  }
+
+  button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+  }
+  /* border: 1px solid black; */
+`;

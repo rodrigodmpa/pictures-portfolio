@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaEllipsisH } from 'react-icons/fa';
+import { IoIosHeartEmpty, IoIosHeart } from 'react-icons/io';
+
 import { confirmAlert } from 'react-confirm-alert';
 import default_image from '~/assets/img/default_image.jpg';
 import { deletePostsRequest } from '~/store/modules/dashboard/actions';
@@ -16,11 +18,17 @@ import {
   PostItemHeader,
   PopUpMoreInfo,
   MoreInfoOption,
+  Footer,
 } from './styles';
 
 function PostItem(post) {
   const [popUpVisibility, setPopUpVisibility] = useState('hidden');
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [like, setLike] = useState(false);
+
+  function toggleLike() {
+    setLike((prev) => !prev);
+  }
   function openModal() {
     setIsOpen(true);
     setPopUpVisibility('hidden');
@@ -112,6 +120,11 @@ function PostItem(post) {
             src={post.post.url}
           />
         </Item>
+        <Footer>
+          <button type="button" onClick={toggleLike}>
+            {like ? <IoIosHeartEmpty /> : <IoIosHeart />}
+          </button>
+        </Footer>
       </ItemContainer>
     </ListContainer>
   );
