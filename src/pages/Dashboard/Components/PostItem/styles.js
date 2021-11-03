@@ -119,3 +119,34 @@ export const MoreInfoOption = styled.span`
     border-top: 1px solid rgba(0, 0, 0, 0.1);
   }
 `;
+
+export const Footer = styled.div`
+  margin: 10px;
+  /* text-align: center; */
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  svg {
+    margin: 10px;
+    font-size: 25px;
+  }
+
+  button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    display: inline;
+  }
+  span {
+    font-size: 14px;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+  }
+  /* border: 1px solid black; */
+`;
