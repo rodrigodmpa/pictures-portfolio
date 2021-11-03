@@ -125,8 +125,10 @@ export const Footer = styled.div`
   /* text-align: center; */
   border-top: 1px solid rgba(0, 0, 0, 0.3);
   font-size: 20px;
+  display: flex;
+  align-items: center;
   svg {
-    margin: 10px 30px 10px 30px;
+    margin: 10px;
     font-size: 25px;
   }
 
@@ -138,6 +140,13 @@ export const Footer = styled.div`
     font: inherit;
     cursor: pointer;
     outline: inherit;
+    display: inline;
+  }
+  span {
+    font-size: 14px;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
   }
   /* border: 1px solid black; */
 `;

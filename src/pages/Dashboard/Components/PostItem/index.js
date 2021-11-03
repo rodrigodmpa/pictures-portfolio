@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaEllipsisH } from 'react-icons/fa';
 import { IoIosHeartEmpty, IoIosHeart } from 'react-icons/io';
 
 import { confirmAlert } from 'react-confirm-alert';
+import { toast } from 'react-toastify';
 import default_image from '~/assets/img/default_image.jpg';
 import { deletePostsRequest } from '~/store/modules/dashboard/actions';
 import Modal from '~/components/Modal';
@@ -20,14 +21,27 @@ import {
   MoreInfoOption,
   Footer,
 } from './styles';
+import api from '~/services/api';
 
 function PostItem(post) {
   const [popUpVisibility, setPopUpVisibility] = useState('hidden');
   const [modalIsOpen, setIsOpen] = useState(false);
   const [like, setLike] = useState(false);
 
-  function toggleLike() {
-    setLike((prev) => !prev);
+  const [sumLike, setSumLike] = useState(post.post.likes.length);
+  async function toggleLike() {
+    try {
+      const response = await api.post(`likes/toggle?post_id=${post.post.id}`);
+      if (response.data.isLike) {
+        setLike(true);
+        setSumLike((prev) => prev + 1);
+      } else {
+        setLike(false);
+        setSumLike((prev) => prev - 1);
+      }
+    } catch (e) {
+      toast.error('Ops... ocorreu algum erro ao fazer isso');
+    }
   }
   function openModal() {
     setIsOpen(true);
@@ -36,8 +50,27 @@ function PostItem(post) {
   function closeModal() {
     setIsOpen(false);
   }
+
+  function likedNames(likes) {
+    const names = likes
+      .map((lik, idx) => {
+        if (idx < 2) {
+          return lik.user.name.split(' ')[0];
+        }
+        return '';
+      })
+      .join(', ');
+
+    return likes.length > 2 ? `${names} e outros` : names;
+  }
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.user.profile);
+  useEffect(() => {
+    const isLiked = post.post.likes.filter((lk) => lk.user_id === profile.id);
+    if (isLiked.length) {
+      setLike(true);
+    }
+  }, [post.post.likes, profile.id]);
 
   function showDefaultImage(e) {
     e.target.attributes.src.value = default_image;
@@ -122,8 +155,12 @@ function PostItem(post) {
         </Item>
         <Footer>
           <button type="button" onClick={toggleLike}>
-            {like ? <IoIosHeartEmpty /> : <IoIosHeart />}
+            {like ? <IoIosHeart /> : <IoIosHeartEmpty />}
           </button>
+          <span>{sumLike}&nbsp;</span>
+          {sumLike > 0 && !!post.post.likes.length && (
+            <span>(Curtido por {likedNames(post.post.likes)})</span>
+          )}
         </Footer>
       </ItemContainer>
     </ListContainer>
